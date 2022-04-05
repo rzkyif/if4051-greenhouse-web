@@ -66,7 +66,7 @@ export default function Index() {
 
   return (
     <div className="bg-stone-200 min-h-screen w-screen flex justify-center">
-      <div className="flex flex-col p-4 px-8 justify-center items-center">
+      <div className="flex flex-col p-4 px-8 justify-center items-center lg:mx-64">
         <h1 className="text-5xl font-bold mb-2">Smart Greenhouse</h1>
         <h2 className="text-3xl font-semibold mb-16">Status</h2>
         <div className="flex flex-row flex-wrap mb-2">
@@ -114,7 +114,7 @@ export default function Index() {
               {data.light[0].value}lx
             </span>
           </div>
-          <div className="relative flex rounded-2xl bg-stone-300 basis-full h-[50vh] p-4 mr-2 mb-2">
+          <div className="relative flex rounded-2xl bg-stone-300 basis-full min-h-[50vh] p-4 mr-2 mb-2">
             <canvas className="w-full h-full" ref={chartCanvas}/>
           </div>
         </div>
