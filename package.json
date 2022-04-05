@@ -1,0 +1,43 @@
+{
+  "name": "if4051-greenhouse-web",
+  "private": true,
+  "description": "",
+  "license": "",
+  "sideEffects": false,
+  "scripts": {
+    "build": "npm run build:css && npm run build:remix",
+    "build:css": "windicss \"./app/**/*.js*\" -mto \"./app/styles/windi.css\" -f windi.config.js",
+    "build:remix": "remix build",
+    "dev": "concurrently -k npm:dev:*",
+    "dev:remix": "remix dev",
+    "dev:css": "windicss \"./app/**/*.js*\" -to \"./app/styles/windi.css\" -d -f windi.config.js",
+    "start": "concurrently -k start:*",
+    "start:remix": "remix-serve build",
+    "start:mqtt": "node ./mqtt/client.js",
+    "test:mqtt": "concurrently -k npm:test:mqtt:*",
+    "test:mqtt:test": "node ./mqtt/test.js -v",
+    "test:mqtt:client": "node ./mqtt/client.js -v"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.11.1",
+    "@remix-run/node": "^1.3.4",
+    "@remix-run/react": "^1.3.4",
+    "@remix-run/serve": "^1.3.4",
+    "chart.js": "^3.7.1",
+    "dayjs": "^1.11.0",
+    "mqtt": "^4.3.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.3.4",
+    "@remix-run/eslint-config": "^1.3.4",
+    "concurrently": "^7.1.0",
+    "eslint": "^8.11.0",
+    "prisma": "^3.11.1",
+    "windicss": "^3.5.1"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
