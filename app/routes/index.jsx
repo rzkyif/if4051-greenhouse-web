@@ -27,11 +27,11 @@ export default function Index() {
 
   function warnIfBad(x,maxD,maxW,minW,minD) {
     if (x < maxD || x > minD) {
-      return "bg-red-300"
+      return "bg-red-200"
     } else if (x < maxW || x > minW) {
-      return "bg-orange-300"
+      return "bg-orange-200"
     } else {
-      return "bg-stone-300"
+      return "bg-stone-200"
     }
   }
 
@@ -65,7 +65,7 @@ export default function Index() {
   }, [])
 
   return (
-    <div className="bg-stone-200 min-h-screen w-screen flex justify-center">
+    <div className="bg-stone-100 min-h-screen w-screen flex justify-center">
       <div className="flex flex-col p-4 px-8 justify-center items-center lg:mx-64">
         <h1 className="text-5xl font-bold mb-2">Smart Greenhouse</h1>
         <h2 className="text-3xl font-semibold mb-16">Status</h2>
@@ -94,7 +94,7 @@ export default function Index() {
           </div>
           <div className={`
             flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none
-            ${warnIfBad(data.humidityGround[0].value,40000,40000,65535,65535)}
+            ${warnIfBad(data.humidityGround[0].value,0,0,40000,40000)}
           `}>
             <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
               Water Level
@@ -114,7 +114,7 @@ export default function Index() {
               {data.light[0].value}lx
             </span>
           </div>
-          <div className="relative flex rounded-2xl bg-stone-300 basis-full min-h-[50vh] p-4 mr-2 mb-2">
+          <div className="relative flex rounded-2xl bg-stone-200 basis-full min-h-[50vh] p-4 mr-2 mb-2">
             <canvas className="w-full h-full" ref={chartCanvas}/>
           </div>
         </div>

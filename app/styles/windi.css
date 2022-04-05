@@ -66,13 +66,21 @@ h1, h2 {
   font-size: inherit;
   font-weight: inherit;
 }
+.bg-red-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(254, 202, 202, var(--tw-bg-opacity));
+}
 .bg-stone-200 {
   --tw-bg-opacity: 1;
   background-color: rgba(231, 229, 228, var(--tw-bg-opacity));
 }
-.bg-stone-300 {
+.bg-orange-200 {
   --tw-bg-opacity: 1;
-  background-color: rgba(214, 211, 209, var(--tw-bg-opacity));
+  background-color: rgba(254, 215, 170, var(--tw-bg-opacity));
+}
+.bg-stone-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(245, 245, 244, var(--tw-bg-opacity));
 }
 .rounded-2xl {
   border-radius: 1rem;
@@ -203,16 +211,6 @@ h1, h2 {
 }
 .w-full {
   width: 100%;
-}
-@media (min-width: 768px) {
-  .md\:mx-32 {
-    margin-left: 8rem;
-    margin-right: 8rem;
-  }
-  .md\:mx-64 {
-    margin-left: 16rem;
-    margin-right: 16rem;
-  }
 }
 @media (min-width: 1024px) {
   .lg\:mx-64 {
