@@ -9,10 +9,10 @@ const DATA_PATTERN = { take: 10, orderBy: {time: 'desc'} }
 
 export async function loader() {
   const data = {
-    temperature: await db.temperature.findMany(DATA_PATTERN),
-    humidityAir: await db.humidityAir.findMany(DATA_PATTERN),
-    humidityGround: await db.humidityGround.findMany(DATA_PATTERN),
-    light: await db.light.findMany(DATA_PATTERN)
+    temperature: (await (await db.temperature.findMany(DATA_PATTERN))).reverse(),
+    humidityAir: (await db.humidityAir.findMany(DATA_PATTERN)).reverse(),
+    humidityGround: (await db.humidityGround.findMany(DATA_PATTERN)).reverse(),
+    light: (await db.light.findMany(DATA_PATTERN)).reverse()
   }
   return json(data);
 }
@@ -72,46 +72,46 @@ export default function Index() {
         <div className="flex flex-row flex-wrap mb-2">
           <div className={`
             flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none
-            ${warnIfBad(data.temperature[0].value,10,20,30,40)}
+            ${warnIfBad(data.temperature.at(-1).value,10,20,30,40)}
           `}>
             <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
               Temperature
             </label>
             <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
-              {data.temperature[0].value}&deg;C
+              {data.temperature.at(-1).value}&deg;C
             </span>
           </div>
           <div className={`
             flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none
-            ${warnIfBad(data.humidityAir[0].value,40,74,80,90)}
+            ${warnIfBad(data.humidityAir.at(-1).value,40,74,80,90)}
           `}>
             <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
               Air Humidity
             </label>
             <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
-              {data.humidityAir[0].value}%
+              {data.humidityAir.at(-1).value}%
             </span>
           </div>
           <div className={`
             flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none
-            ${warnIfBad(data.humidityGround[0].value,0,0,40000,40000)}
+            ${warnIfBad(data.humidityGround.at(-1).value,0,0,40000,40000)}
           `}>
             <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
               Water Level
             </label>
             <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
-              {data.humidityGround[0].value > 40000 ? 'Low' : 'High'}
+              {data.humidityGround.at(-1).value > 40000 ? 'Low' : 'High'}
             </span>
           </div>
           <div className={`
             flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none
-            ${warnIfBad(data.light[0].value,5,20,30,80)}
+            ${warnIfBad(data.light.at(-1).value,5,20,30,80)}
           `}>
             <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
               Light
             </label>
             <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
-              {data.light[0].value}lx
+              {data.light.at(-1).value}lx
             </span>
           </div>
           <div className="relative flex rounded-2xl bg-stone-200 basis-full min-h-[50vh] p-4 mr-2 mb-2">
