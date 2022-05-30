@@ -5,14 +5,15 @@ import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
 import { db } from "~/db.server";
 
-const DATA_PATTERN = { take: 10, orderBy: {time: 'desc'} }
+const DATA_PATTERN = { take: 5, orderBy: {time: 'desc'} }
 
 export async function loader() {
   const data = {
     temperature: (await (await db.temperature.findMany(DATA_PATTERN))).reverse(),
     humidityAir: (await db.humidityAir.findMany(DATA_PATTERN)).reverse(),
     humidityGround: (await db.humidityGround.findMany(DATA_PATTERN)).reverse(),
-    light: (await db.light.findMany(DATA_PATTERN)).reverse()
+    light: (await db.light.findMany(DATA_PATTERN)).reverse(),
+    tds: (await db.tds.findMany(DATA_PATTERN)).reverse()
   }
   return json(data);
 }
@@ -112,6 +113,17 @@ export default function Index() {
             </label>
             <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
               {data.light.at(-1).value}lx
+            </span>
+          </div>
+          <div className={`
+            flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none
+            ${warnIfBad(data.tds.at(-1).value,300,400,900,1000)}
+          `}>
+            <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
+              TDS
+            </label>
+            <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
+              {data.tds.at(-1).value}ppm
             </span>
           </div>
           <div className="relative flex rounded-2xl bg-stone-200 basis-full min-h-[50vh] p-4 mr-2 mb-2">

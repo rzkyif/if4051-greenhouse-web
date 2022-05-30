@@ -30,6 +30,11 @@ model Light {
   value Float
 }
 
+model Tds {
+  time DateTime @unique
+  value Float
+}
+
 model Image {
   time DateTime @unique
   value Bytes
