@@ -34,3 +34,8 @@ model Image {
   time DateTime @unique
   value Bytes
 }
+
+model Height {
+  time DateTime @unique
+  value Float
+}

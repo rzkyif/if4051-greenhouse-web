@@ -15,6 +15,7 @@
     "start": "concurrently -k npm:start:*",
     "start:remix": "remix-serve build",
     "start:mqtt": "node ./mqtt/client.js",
+    "test:impr": "node ./image_processing/height.js",
     "test:mqtt": "concurrently -k npm:test:mqtt:*",
     "test:mqtt:test": "node ./mqtt/test.js -v",
     "test:mqtt:client": "node ./mqtt/client.js -v"
@@ -26,6 +27,8 @@
     "@remix-run/serve": "^1.3.4",
     "chart.js": "^3.7.1",
     "dayjs": "^1.11.0",
+    "fast-glob": "^3.2.11",
+    "image-js": "^0.34.0",
     "mqtt": "^4.3.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
