@@ -74,7 +74,7 @@ client.on('message', async function (topic, message) {
     })
     if (model_name == 'image') {
       const image = await Image.load(data_value)
-      const height = calculate_first_green_row(image) / (image.height-1)
+      const height = calculate_first_green_row(image) / (image.height)
 
       await db.height.create({
         data: {
@@ -82,7 +82,7 @@ client.on('message', async function (topic, message) {
           value: height
         }
       })
-      debug(`Stored height data!`)
+      debug(`Stored height data! (${height})`)
     }
     debug(`Received and stored ${data_type} data!`)
   } catch (err) {

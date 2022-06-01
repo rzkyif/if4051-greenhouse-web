@@ -5,15 +5,21 @@ import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
 import { db } from "~/db.server";
 
-const DATA_PATTERN = { take: 5, orderBy: {time: 'desc'} }
+const DATA_PATTERN_MULTIPLE = { take: 5, orderBy: {time: 'desc'} }
+const DATA_PATTERN_SINGLE = { take: 1, orderBy: {time: 'desc'} }
+
+const IMAGE_HEIGHT = 480
+const IMAGE_BOTTOM = 388
+const PLANT_MAX_HEIGHT = 25
 
 export async function loader() {
   const data = {
-    temperature: (await (await db.temperature.findMany(DATA_PATTERN))).reverse(),
-    humidityAir: (await db.humidityAir.findMany(DATA_PATTERN)).reverse(),
-    humidityGround: (await db.humidityGround.findMany(DATA_PATTERN)).reverse(),
-    light: (await db.light.findMany(DATA_PATTERN)).reverse(),
-    tds: (await db.tds.findMany(DATA_PATTERN)).reverse()
+    temperature: (await db.temperature.findMany(DATA_PATTERN_MULTIPLE)).reverse(),
+    humidityAir: (await db.humidityAir.findMany(DATA_PATTERN_MULTIPLE)).reverse(),
+    light: (await db.light.findMany(DATA_PATTERN_MULTIPLE)).reverse(),
+    humidityGround: await db.humidityGround.findMany(DATA_PATTERN_SINGLE),
+    tds: await db.tds.findMany(DATA_PATTERN_SINGLE),
+    height: await db.height.findMany(DATA_PATTERN_SINGLE)
   }
   return json(data);
 }
@@ -95,13 +101,13 @@ export default function Index() {
           </div>
           <div className={`
             flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none
-            ${warnIfBad(data.humidityGround.at(-1).value,0,0,40000,40000)}
+            ${warnIfBad(data.humidityGround.at(0).value,0,0,40000,40000)}
           `}>
             <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
               Water Level
             </label>
             <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
-              {data.humidityGround.at(-1).value > 40000 ? 'Low' : 'High'}
+              {data.humidityGround.at(0).value > 40000 ? 'Low' : 'High'}
             </span>
           </div>
           <div className={`
@@ -112,18 +118,26 @@ export default function Index() {
               Light
             </label>
             <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
-              {data.light.at(-1).value}lx
+              {(Math.round(data.light.at(-1).value))}lx
             </span>
           </div>
           <div className={`
             flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none
-            ${warnIfBad(data.tds.at(-1).value,300,400,900,1000)}
+            ${warnIfBad(data.tds.at(0).value,300,400,900,1000)}
           `}>
             <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
               TDS
             </label>
             <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
-              {data.tds.at(-1).value}ppm
+              {(Math.round(data.tds.at(0).value))}ppm
+            </span>
+          </div>
+          <div className="flex flex-col flex-1 rounded-2xl mr-2 mb-2 select-none bg-stone-200">
+            <label className="rounded-t-2xl px-4 pt-4 pb-1 text-center font-semibold">
+              Height
+            </label>
+            <span className="rounded-b-2xl px-4 pb-4 pt-1 text-center font-bold text-5xl">
+              {(data.height.at(0).value * IMAGE_HEIGHT) > IMAGE_BOTTOM ? "0" : Math.round(((IMAGE_BOTTOM - (data.height.at(0).value * IMAGE_HEIGHT)) / IMAGE_BOTTOM) * PLANT_MAX_HEIGHT)}cm
             </span>
           </div>
           <div className="relative flex rounded-2xl bg-stone-200 basis-full min-h-[50vh] p-4 mr-2 mb-2">
